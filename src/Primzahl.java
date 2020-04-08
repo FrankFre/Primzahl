@@ -18,55 +18,71 @@ public class Primzahl {
 
 	}
 
-	private static int fakultaet(int fak) {
+	// Berechnung der Fakultät
+	private static long fakultaet(long fak) {
 
-		int reihe = 1;
+		long reihe = 1;
 
-		if (fak > 0) {
-			for (int i = 1; i <= fak; i++) {
-				reihe = reihe * i;
+		if (fak > 1) {
+			for (int a = 2; a <= fak; a++) {
+				reihe = reihe * a;
 			}
 
 		}
 		return reihe;
 	}
 
+	// Erzeugung der Primzahlen nach beschriebener Methode
 	private static void erzeugen(int xmax) {
 
-		int i, k;
+		int i, j, k, l;
+		int zaehler = 0;
 		int[] feld = new int[xmax + 1];
 
-		
-		for (i = 1; i <= xmax; i++) {					// Füllen des Arrays mit einer Zahlenreihe
+		// Füllen des Arrays mit einer Zahlenreihe, Index entspricht den enthaltenen
+		// Wert
+		for (i = 1; i <= xmax; i++) {
 			feld[i] = i;
 		}
-		
+	
 
-		for(i = 2; i <= xmax; i++) {				 // Abfrage, ob das Feld gelöscht wurde, Iteration durch Array
-
-			for (int j = 2; j <= i; j++) { 					// Prüfung auf Primzahl, wenn nein - Feld mit 0 füllen
-				
-				System.out.println(Arrays.toString(feld));
-				
-				if ((1 + fakultaet(i - 1)) % i > 0) {		 // Prüfung auf Primzahl, wenn ja, aufs nächste Feld springen
-					
-					feld[i] = 0; 
-					
-					for(k = 2; k <= xmax; k++ ) {			// leeren aller Nicht-Primzahl-Vielfachen
-					
-						k = k * i;
-							if(k < xmax)  {
-								
-							feld[k] = 0;  						// leeren des Feldes einer nicht-Primzahl
-							
-							}
-					}
-						
-				}
 		
+		// Iteration durch das Array
+		for (j = 2; j <= xmax; j++) {
+			
+			
+//			System.out.println(Arrays.toString(feld));
+			
+			// leeren aller Vielfachen für alle höheren Werte
+			for (k = 2; k <= xmax; k++) {
+
+				l = j * k;
+//				System.out.println(l);
+				if (l <= xmax) {
+
+					// leeren des Feldes einer nicht-Primzahl
+				feld[l] = 0;
+			
+				} 
 			}
+			
+			// Abfrage, ob das Feld durch Berechnung des Vielfachen schon gelöscht wurde,
+			if (feld[j] == 0 && j < xmax) {
+				j++;
+				
+			}
+
+			// Prüfung auf Nicht-Primzahl, wenn ja, mit Null füllen
+			zaehler++;
+			if ((1 + fakultaet(j - 1)) % j > 0) {
+
+				feld[j] = 0;
+					
+			}
+
 		}
 		System.out.println(Arrays.toString(feld));
+//		System.out.println("Anzahl der Primzahl-Berechnungen: " + zaehler);
 	}
 
 }
